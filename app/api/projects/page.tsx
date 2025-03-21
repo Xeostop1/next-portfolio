@@ -4,11 +4,14 @@ import { useEffect, useState } from 'react';
 import slugify from 'slugify';
 import Link from 'next/link';
 import { Project } from '@/types/Project';
+import { useProjectStore } from '@/lib/store/projectStore'; // **** 추가
 
 export default function ProjectsPage() {
   const [projects, setProjects] = useState<Project[]>([]);
   const [selectedSkill, setSelectedSkill] = useState<string | null>(null);
-  const [sortOrder, setSortOrder] = useState<'newest' | 'oldest'>('newest'); // ✅ 정답 반영
+  const [sortOrder, setSortOrder] = useState<'newest' | 'oldest'>('newest');
+
+  const { isAdmin } = useProjectStore(); // **** 관리자 여부 상태 사용
 
   useEffect(() => {
     fetch('/api/projects')
@@ -58,6 +61,13 @@ export default function ProjectsPage() {
             <Link href={`/projects/${slugify(project.title)}`}>
               {project.title}
             </Link>
+
+            {isAdmin && ( // **** 관리자일 때만 버튼 보여줌
+              <>
+                <button>수정</button> {/* **** */}
+                <button>삭제</button> {/* **** */}
+              </>
+            )}
           </li>
         ))}
       </ul>
