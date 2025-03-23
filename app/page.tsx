@@ -1,25 +1,16 @@
-import { getProjects } from '@/sanity/lib/sanity';
-import { Project } from '../lib/types'
+import Header from '@/components/layout/Header';
+import GlassLayoutWithHeader from '@/components/layout/GlassLayoutWithHeader';
 
-export default async function HomePage() {
-  const projects:Project[] = await getProjects();
-
+export default function Home() {
   return (
-    <div>
-      <h1>My Projects</h1>
-      <ul>
-        {projects.map((project) => (
-          <li key={project.id}>
-            <h2>{project.title}</h2>
-            <p>{project.subtitle}</p>
-            <p>{project.description}</p>
-            <p>Skills: {project.skills.join(', ')}</p>
-            <p>Created At: {new Date(project.createdAt).toLocaleDateString()}</p>
-            <hr/>
-          </li>
-        ))}
-        
-      </ul>
-    </div>
+    <main>
+        <GlassLayoutWithHeader>
+          <section className="p-6">
+            <h2 className="text-2xl font-semibold mb-4">Welcome!</h2>
+            <p>포트폴리오 사이트에 오신 걸 환영합니다. 상단 버튼을 눌러 프로젝트를 확인해보세요.</p>
+          </section>
+      </GlassLayoutWithHeader>
+    </main>
+
   );
 }
