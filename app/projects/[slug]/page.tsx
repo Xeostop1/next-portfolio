@@ -25,11 +25,11 @@ export default async function ProjectDetailPage({ params }: Props) {
   return (
     <GlassLayoutWithHeader>
       <div className="p-4">
-        <h1 className="text-xl font-bold">{project.title}</h1>
-        <p>{project.subtitle}</p>
-        <p>{project.description}</p>
-        <p>기술: {project.skills?.join(', ')}</p>
-        <p>
+        <h1 className="text-xl font-bold text-white ">{project.title}</h1>
+        <p className='text-white '>{project.subtitle}</p>
+        <p className='text-white '>{project.description}</p>
+        <p className='text-white '>기술: {project.skills?.join(', ')}</p>
+        <p className='text-white '>
           작성일:{' '}
           {new Date(project.createdAt)
             .toLocaleDateString('ko-KR', {

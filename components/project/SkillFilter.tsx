@@ -8,11 +8,11 @@ type Props = {
 
 export default function SkillFilter({ skills, selectedSkill, onChange }: Props) {
   return (
-    <div className="flex gap-2 mb-4">
+    <div className="flex gap-2 mb-4 text-white">
       <span>기술 필터:</span>
       <button
         onClick={() => onChange(null)}
-        style={{ fontWeight: selectedSkill === null ? 'bold' : 'normal' }}
+        style={{ fontWeight: selectedSkill === null ? 'bold ' : 'normal' }}
       >
         All
       </button>

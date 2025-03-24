@@ -8,7 +8,8 @@ import ProjectList from '@/components/project/ProjectList';
 import SortControls from '@/components/project/SortControls';
 import SkillFilter from '@/components/project/SkillFilter';
 import GlassLayoutWithHeader from '@/components/layout/GlassLayoutWithHeader';
-import AddProject from '@/components/project/AddProject'; // ✅ 추가
+import Toast from '@/components/feedback/Toast'; // ***
+import { useToastState } from '@/lib/hook/useToastState'; // ***
 
 export default function ProjectsPage() {
   const { isAdmin } = useProjectStore();
@@ -17,12 +18,15 @@ export default function ProjectsPage() {
   const [selectedSkill, setSelectedSkill] = useState<string | null>(null);
   const [sortOrder, setSortOrder] = useState<'newest' | 'oldest'>('newest');
   const [editingProject, setEditingProject] = useState<Project | null>(null);
-  const [isFormOpen, setIsFormOpen] = useState(false); // ✅ 추가
+
+  const { message, visible, showToast, hideToast } = useToastState(); // ***
 
   const fetchProjects = () => {
     fetch('/api/projects')
       .then((res) => res.json())
-      .then((data) => setProjects(data));
+      .then((data) => {
+        setProjects(data);
+      });
   };
 
   useEffect(() => {
@@ -37,18 +41,19 @@ export default function ProjectsPage() {
     );
     setSortedProjects(sorted);
   }, [projects, sortOrder]);
-
-  const handleDelete = async (id: number) => {
+// -======= 핸들딜리트 확인 !
+  const handleDelete = async (_id: string) => { // ***
     const res = await fetch('/api/projects/delete', {
       method: 'DELETE',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ id }),
+      body: JSON.stringify({ _id }), // ***
     });
 
     if (res.ok) {
-      setProjects((prev) => prev.filter((project) => project.id !== id));
+      setProjects((prev) => prev.filter((project) => project._id !== _id)); // ***
+      showToast('✅ 삭제되었습니다'); // ***
     } else {
-      alert('삭제 실패!');
+      showToast('❌ 삭제에 실패했어요'); // ***
     }
   };
 
@@ -63,7 +68,7 @@ export default function ProjectsPage() {
   return (
     <GlassLayoutWithHeader>
       <div className="p-4">
-        <h1 className="text-2xl font-bold mb-4">Projects</h1>
+        <h1 className="text-2xl text-white font-bold mb-4">Projects</h1>
 
         <SkillFilter
           skills={allSkills}
@@ -71,32 +76,15 @@ export default function ProjectsPage() {
           onChange={setSelectedSkill}
         />
 
-        <SortControls sortOrder={sortOrder} onChange={setSortOrder} />
-
-        {isAdmin && (
-          <>
-            <button
-              className="bg-white/10 text-white px-4 py-2 rounded-lg shadow mb-4"
-              onClick={() => setIsFormOpen((prev) => !prev)} // ✅ 버튼
-            >
-              {isFormOpen ? '취소' : '➕ 새 프로젝트 추가'}
-            </button>
-
-            {isFormOpen && (
-              <AddProject
-                onAdded={() => {
-                  fetchProjects();
-                  setIsFormOpen(false);
-                }}
-              />
-            )}
-          </>
-        )}
+        <SortControls
+          sortOrder={sortOrder}
+          onChange={setSortOrder}
+        />
 
         <ProjectList
           projects={filtered}
           isAdmin={isAdmin}
-          handleDelete={handleDelete}
+          handleDelete={handleDelete} // ***
           handleEdit={(project) => setEditingProject(project)}
         />
 
@@ -104,9 +92,14 @@ export default function ProjectsPage() {
           <EditProject
             project={editingProject}
             onClose={() => setEditingProject(null)}
-            onSaved={fetchProjects}
+            onSaved={() => {
+              fetchProjects();
+              showToast('✅ 저장되었습니다!'); // ***
+            }}
           />
         )}
+
+        <Toast message={message} visible={visible} onClose={hideToast} /> {/* *** */}
       </div>
     </GlassLayoutWithHeader>
   );

@@ -7,7 +7,7 @@ type Props = {
 
 export default function SortControls({ sortOrder, onChange }: Props) {
   return (
-    <div className="flex gap-2 mb-4">
+    <div className="flex gap-2 mb-4 text-white">
       <span>정렬:</span>
       <button
         onClick={() => onChange('newest')}

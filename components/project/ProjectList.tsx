@@ -6,7 +6,7 @@ import ProjectItem from './ProjectItem'; // 다음 단계에서 만들거야
 type Props = {
   projects: Project[];
   isAdmin: boolean;
-  handleDelete: (id: number) => void;
+  handleDelete: (_id: string) => void;
   handleEdit: (project: Project) => void;
 };
 

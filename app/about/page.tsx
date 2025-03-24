@@ -3,6 +3,11 @@
 import GlassLayoutWithHeader from '@/components/layout/GlassLayoutWithHeader';
 
 export default function AboutPage() {
+  // <img
+//   src="/profile.mp4"
+//   alt="프로필"
+//   className="rounded-xl w-55 h-110 object-cover border-4 border-white/20 shadow-xl"
+// />
   return (
     <GlassLayoutWithHeader>
       <div className="grid md:grid-cols-2 gap-8">
@@ -37,11 +42,15 @@ export default function AboutPage() {
 
         {/* 👉 오른쪽: 이미지 */}
         <div className="flex items-center justify-center">
-          <img
-            src="/profile.png"
-            alt="프로필"
-            className="rounded-xl w-55 h-110 object-cover border-4 border-white/20 shadow-xl"
+        <video
+            src="/profile.mp4" // 🎬 public 폴더에 profile.mp4 파일 있어야 해!
+            autoPlay
+            loop
+            muted
+            playsInline
+            className="rounded-lg w-[300px] h-[540px] object-cover border-4 border-white/10 shadow-xl" 
           />
+
         </div>
       </div>
       </GlassLayoutWithHeader>
