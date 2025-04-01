@@ -4,7 +4,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { getProjects } from '@/sanity/lib/sanity'; // ✅ GET용 헬퍼 함수 import
 
 // ✅ GET: 프로젝트 목록 가져오기
-export async function GET(req: NextRequest) {
+export async function GET() {
   try {
     const projects = await getProjects();
     return NextResponse.json(projects);

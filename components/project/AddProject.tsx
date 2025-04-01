@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import { Project } from '@/types/Project';
 import GlassButton from '@/components/common/GlassButton';
 
 type Props = {
