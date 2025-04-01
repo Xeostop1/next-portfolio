@@ -14,6 +14,8 @@ export default function EditProject({ project, onClose, onSaved }: Props) {
   const [description, setDescription] = useState('');
   const [subtitle, setSubtitle] = useState('');
   const [skills, setSkills] = useState<string[]>([]);
+  const [path, setPath] = useState('');
+
 
 
   useEffect(() => {
@@ -21,6 +23,8 @@ export default function EditProject({ project, onClose, onSaved }: Props) {
     setSubtitle(project.subtitle || ''); 
     setDescription(project.description || '');
     setSkills(project.skills || []);
+    setPath(project.path || '');
+
   }, [project]);
 
   const handleSubmit = async () => {
@@ -33,6 +37,7 @@ export default function EditProject({ project, onClose, onSaved }: Props) {
         subtitle,
         description,
         skills,
+        path,
       }),
     });
   
@@ -61,6 +66,13 @@ export default function EditProject({ project, onClose, onSaved }: Props) {
         placeholder="기술 (쉼표로 구분)"
         className="border p-1 my-2 w-full"
       />
+      <input
+        value={path}
+        onChange={(e) => setPath(e.target.value)}
+        placeholder="이미지 경로 (예: my-first-project)"
+        className="border p-1 my-2 w-full"
+      />
+
       <textarea
         value={description}
         onChange={(e) => setDescription(e.target.value)}

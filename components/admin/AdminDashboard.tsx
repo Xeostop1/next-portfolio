@@ -7,6 +7,7 @@ import { getProjectCount } from '@/services/project/getProjectCount';
 import ProjectList from '@/components/project/ProjectList';
 import AddProject from '@/components/project/AddProject'; // ✅ 추가
 import EditProject from '@/components/project/EditProject';
+import MailList from './MailList'; 
 
 export default function AdminPage() {
   const { isAdmin } = useProjectStore();
@@ -54,6 +55,7 @@ export default function AdminPage() {
       ) : (
         <p>로딩 중...</p>
       )}
+       <MailList /> {/* 📬 받은 메일 리스트 표시 */}
     </div>
 
         {/* ✅ 추가 버튼 */}

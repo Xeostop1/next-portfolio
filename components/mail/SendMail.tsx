@@ -5,7 +5,7 @@ import GlassButton from '@/components/common/GlassButton';
 
 export default function SendMail() {
   const [email, setEmail] = useState('');
-  const [subject, setSubject] = useState('');
+  const [name, setname] = useState('');
   const [message, setMessage] = useState('');
   const [status, setStatus] = useState('');
 
@@ -16,13 +16,13 @@ export default function SendMail() {
     const res = await fetch('/api/mail/send', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, subject, message }),
+      body: JSON.stringify({ email, name, message }),
     });
 
     if (res.ok) {
       setStatus('✅ 메일이 성공적으로 전송되었습니다!');
       setEmail('');
-      setSubject('');
+      setname('');
       setMessage('');
     } else {
       setStatus('❌ 메일 전송 실패...');
@@ -45,8 +45,8 @@ export default function SendMail() {
       <input
         type="text"
         placeholder="제목"
-        value={subject}
-        onChange={(e) => setSubject(e.target.value)}
+        value={name}
+        onChange={(e) => setname(e.target.value)}
         className="w-full p-2 rounded bg-white/20 placeholder-gray-300"
         required
       />

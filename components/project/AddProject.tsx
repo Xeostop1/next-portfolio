@@ -13,6 +13,8 @@ export default function AddProject({ onAdded }: Props) {
   const [subtitle, setSubtitle] = useState('');
   const [description, setDescription] = useState('');
   const [skills, setSkills] = useState('');
+  const [path, setPath] = useState('');
+
 
   const handleSubmit = async () => {
     const res = await fetch('/api/projects', {
@@ -21,6 +23,7 @@ export default function AddProject({ onAdded }: Props) {
       body: JSON.stringify({
         title,
         subtitle,
+        path,
         description,
         skills: skills.split(',').map((s) => s.trim()),
       }),
@@ -64,6 +67,14 @@ export default function AddProject({ onAdded }: Props) {
         placeholder="기술 (쉼표로 구분)"
         className="border p-2 mb-2 w-full bg-black/30 text-white"
       />
+      <input
+        value={path}
+        onChange={(e) => setPath(e.target.value)}
+        placeholder="이미지 경로 (예: my-first-project)"
+        className="border p-1 my-2 w-full"
+      />
+
+
       <GlassButton onClick={handleSubmit}>저장</GlassButton>
     </div>
   );

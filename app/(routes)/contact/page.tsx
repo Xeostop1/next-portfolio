@@ -11,7 +11,7 @@ export default function ContactPage() {
             <h1 className="text-3xl font-bold mb-6">📮 Contact Me</h1>
             <p className="mb-4">궁금한 점이 있다면 언제든지 연락 주세요!</p>
 
-            <SendMail /> {/* ✅ 만든 폼 재사용 */}
+            <SendMail /> 
             
           </div>
           

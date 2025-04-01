@@ -18,7 +18,7 @@ export async function GET(req: NextRequest) {
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    const { title, subtitle, description, skills } = body;
+    const { title, subtitle, path, description, skills } = body;
 
     const newProject = await client.create({
       _id: uuidv4(), // 고유 _id 생성
@@ -26,6 +26,7 @@ export async function POST(req: Request) {
       id: Number(new Date().getTime()), // 보조용 숫자 ID
       title,
       subtitle,
+      path,
       description,
       skills,
       createdAt: new Date().toISOString(),

@@ -2,24 +2,23 @@
 
 import Link from 'next/link';
 import { useSession, signIn, signOut } from 'next-auth/react';
-import { useEffect } from 'react'; 
-import { useProjectStore } from '@/lib/store/projectStore'; // ****
+import { useEffect } from 'react';
+import { useProjectStore } from '@/lib/store/projectStore';
 
 export default function Header() {
   const { data: session, status } = useSession();
-  const setIsAdmin = useProjectStore((state) => state.setIsAdmin); // ****
+  const setIsAdmin = useProjectStore((state) => state.setIsAdmin);
 
-  // **** 로그인 후 관리자 인증 여부 판단
   useEffect(() => {
     if (session?.user?.email === '11requiem27@gmail.com') {
-      setIsAdmin(true); 
+      setIsAdmin(true);
     } else {
-      setIsAdmin(false); 
+      setIsAdmin(false);
     }
-  }, [session, setIsAdmin]); 
+  }, [session, setIsAdmin]);
 
   return (
-    <header className="w-full px-6 py-4 text-white flex justify-between items-center bg-black/30 backdrop-blur-md shadow-md z-50">
+    <header className="fixed top-0 w-full px-6 py-4 text-white flex justify-between items-center bg-black/30 backdrop-blur-md shadow-md z-50">
       <h1 className="text-xl font-bold">
         <Link href="/">🌌 Hana's Portfolio</Link>
       </h1>
@@ -27,8 +26,11 @@ export default function Header() {
       <nav className="flex items-center gap-4">
         <Link href="/projects">프로젝트</Link>
         <Link href="/about">About</Link>
-        <Link href="/admin">Admin</Link>
         <Link href="/contact">Contact</Link>
+
+        {session && (
+          <Link href="/admin">Admin</Link> // ✅ 로그인한 경우에만 보여줌
+        )}
 
         {status === 'loading' ? (
           <span>로딩 중...</span>
