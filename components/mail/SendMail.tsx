@@ -34,7 +34,7 @@ export default function SendMail() {
       onSubmit={handleSubmit}
       className="space-y-4 bg-white/10 p-6 rounded-xl backdrop-blur-md shadow-xl text-black" // **** text-black로 변경
     >
-      <h2 className="text-2xl font-bold">✉️ 메일 보내기</h2>
+    
 
       <input
         type="email"
