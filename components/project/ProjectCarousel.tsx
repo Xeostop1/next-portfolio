@@ -1,85 +1,63 @@
 'use client';
 
-import { useEffect, useState } from 'react';
 import { Project } from '@/types/Project';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Pagination, Navigation } from 'swiper/modules';
 import Link from 'next/link';
+import 'swiper/css';
+import 'swiper/css/pagination';
+import 'swiper/css/navigation';
 
 type Props = {
-  projects: Project[];
+  projects?: Project[]; // **** projects가 undefined일 수도 있으니 옵셔널로 설정
 };
 
 export default function ProjectCarousel({ projects }: Props) {
-  const [isMobile, setIsMobile] = useState(false); // ✅ 최상단 useState
-  const [index, setIndex] = useState(0); // ✅ 최상단 useState
+  console.log('🧩 전달받은 projects:', projects); // **** 디버깅 로그
 
-  // ✅ 최상단 useEffect
-  useEffect(() => {
-    const checkViewport = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-    checkViewport();
-    window.addEventListener('resize', checkViewport);
-    return () => window.removeEventListener('resize', checkViewport);
-  }, []);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setIndex((prev) => (prev + 1) % projects.length);
-    }, 5000);
-    return () => clearInterval(interval);
-  }, [projects.length]);
-
-  if (isMobile) {
-    // ✅ 조건부 JSX 렌더링만 가능
+  if (!projects || projects.length === 0) {
+    // **** 예외 처리
     return (
-      <div className="flex flex-col gap-4 mt-4">
-        {projects.map((project) => (
-          <Link
-            key={project._id}
-            href={`/projects/${project.path}`}
-            className="block bg-white/10 rounded-xl shadow-md overflow-hidden"
-          >
-            <img
-              src={`/project/${project.path}.jpg`}
-              alt={project.title}
-              className="w-full aspect-[2/1] object-cover"
-            />
-            <div className="p-4 text-white text-center font-medium">
-              {project.title}
-            </div>
-          </Link>
-        ))}
+      <div className="text-center text-white py-10">
+        프로젝트가 없습니다. 😢 {/* **** */}
       </div>
     );
   }
 
-  const current = projects[index];
-
   return (
-    <div className="relative w-full max-w-4xl mx-auto mt-6">
-      <div className="overflow-hidden rounded-xl shadow-lg bg-white/10 backdrop-blur-md">
-        <img
-          src={`/project/${current.path}.jpg`}
-          alt={current.title}
-          className="w-full aspect-[2/1] object-cover"
-        />
-        <div className="p-4 text-white text-center font-semibold text-xl">
-          <Link href={`/projects/${current.path}`}>{current.title}</Link>
-        </div>
-      </div>
+    <div className="relative w-full max-w-6xl mx-auto px-4">
+      <Swiper
+        spaceBetween={30}
+        slidesPerView={3}
+        loop={true}
+        pagination={{
+          el: '.swiper-pagination',
+          clickable: true,
+        }}
+        navigation={true}
+        modules={[Pagination, Navigation]}
+      >
+        {projects.map((project) => (
+          <SwiperSlide key={project._id}>
+            <div className="flex flex-col items-center bg-white/10 backdrop-blur-md rounded-xl shadow-lg overflow-hidden">
+              <img
+                src={`/project/${project.path}.jpg`}
+                alt={project.title}
+                className="w-full h-56 object-cover"
+              />
+              <div className="w-full text-white text-center font-semibold text-lg py-3">
+                <Link href={`/projects/${project.path}`}>
+                  {project.title}
+                </Link>
+              </div>
+            </div>
+          </SwiperSlide>
+        ))}
+      </Swiper>
 
-      <button
-        onClick={() => setIndex((prev) => (prev - 1 + projects.length) % projects.length)}
-        className="absolute left-0 top-1/2 -translate-y-1/2 px-3 py-1 bg-white/20 backdrop-blur-sm text-white shadow-md rounded-l-lg"
-      >
-        ◀
-      </button>
-      <button
-        onClick={() => setIndex((prev) => (prev + 1) % projects.length)}
-        className="absolute right-0 top-1/2 -translate-y-1/2 px-3 py-1 bg-white/20 backdrop-blur-sm text-white shadow-md rounded-r-lg"
-      >
-        ▶
-      </button>
+      <div className="flex justify-center mt-4">
+        <div className="swiper-pagination" />
+      </div> 
     </div>
   );
 }

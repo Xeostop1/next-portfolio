@@ -5,9 +5,10 @@ import GlassLayoutWithHeader from '@/components/layout/GlassLayoutWithHeader';
 export default function AboutPage() {
   return (
     <GlassLayoutWithHeader>
-      <div className="flex flex-col sm:flex-row gap-4 p-4 items-center justify-center">
-        {/* 👈 소개: 고정된 비율의 직사각형 */}
-        <div className="w-[320px] h-[540px] sm:w-[320px] sm:h-[540px] backdrop-blur-sm bg-white/5 rounded-xl p-6 shadow-md border border-white/20 text-white flex flex-col justify-between">
+      {/* ✅ flex-row로 항상 가로로 유지 */}
+      <div className="flex flex-row flex-wrap justify-center items-center gap-4 p-4">
+        {/* 👈 소개 카드 */}
+        <div className="w-[320px] h-[540px] backdrop-blur-sm bg-white/5 rounded-xl p-6 shadow-md border border-white/20 text-white flex flex-col justify-between">
           <div>
             <h1 className="text-3xl font-bold">서하나</h1>
             <p className="mt-2 text-sm">Next.js로 우주 감성 포트폴리오를 만드는 중...</p>
@@ -37,8 +38,8 @@ export default function AboutPage() {
           </div>
         </div>
 
-        {/* 👉 비디오: 같은 크기의 직사각형 */}
-        <div className="w-[320px] h-[540px] sm:w-[320px] sm:h-[540px] rounded-xl overflow-hidden border border-white/10 shadow-xl">
+        {/* 👉 비디오 카드 */}
+        <div className="w-[320px] h-[540px] rounded-xl overflow-hidden border border-white/10 shadow-xl">
           <video
             src="/profile.mp4"
             autoPlay

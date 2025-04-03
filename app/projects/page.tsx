@@ -8,8 +8,8 @@ import ProjectList from '@/components/project/ProjectList';
 import SortControls from '@/components/project/SortControls';
 import SkillFilter from '@/components/project/SkillFilter';
 import GlassLayoutWithHeader from '@/components/layout/GlassLayoutWithHeader';
-import Toast from '@/components/feedback/Toast'; // ***
-import { useToastState } from '@/lib/hook/useToastState'; // ***
+import Toast from '@/components/feedback/Toast';
+import { useToastState } from '@/lib/hook/useToastState';
 
 export default function ProjectsPage() {
   const { isAdmin } = useProjectStore();
@@ -19,7 +19,7 @@ export default function ProjectsPage() {
   const [sortOrder, setSortOrder] = useState<'newest' | 'oldest'>('newest');
   const [editingProject, setEditingProject] = useState<Project | null>(null);
 
-  const { message, visible, showToast, hideToast } = useToastState(); // ***
+  const { message, visible, showToast, hideToast } = useToastState();
 
   const fetchProjects = () => {
     fetch('/api/projects')
@@ -41,19 +41,19 @@ export default function ProjectsPage() {
     );
     setSortedProjects(sorted);
   }, [projects, sortOrder]);
-// -======= 핸들딜리트 확인 !
-  const handleDelete = async (_id: string) => { // ***
+
+  const handleDelete = async (_id: string) => {
     const res = await fetch('/api/projects/delete', {
       method: 'DELETE',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ _id }), // ***
+      body: JSON.stringify({ _id }),
     });
 
     if (res.ok) {
-      setProjects((prev) => prev.filter((project) => project._id !== _id)); // ***
-      showToast('✅ 삭제되었습니다'); // ***
+      setProjects((prev) => prev.filter((project) => project._id !== _id));
+      showToast('✅ 삭제되었습니다');
     } else {
-      showToast('❌ 삭제에 실패했어요'); // ***
+      showToast('❌ 삭제에 실패했어요');
     }
   };
 
@@ -76,17 +76,17 @@ export default function ProjectsPage() {
           onChange={setSelectedSkill}
         />
 
-        <SortControls
-          sortOrder={sortOrder}
-          onChange={setSortOrder}
-        />
+        <SortControls sortOrder={sortOrder} onChange={setSortOrder} />
 
-        <ProjectList
-          projects={filtered}
-          isAdmin={isAdmin}
-          handleDelete={handleDelete} // ***
-          handleEdit={(project) => setEditingProject(project)}
-        />
+        {/* ✅ 가운데 정렬 + 너비 제한 */}
+        <div className="max-w-screen-lg mx-auto">
+          <ProjectList
+            projects={filtered}
+            isAdmin={isAdmin}
+            handleDelete={handleDelete}
+            handleEdit={(project) => setEditingProject(project)}
+          />
+        </div>
 
         {editingProject && (
           <EditProject
@@ -94,12 +94,12 @@ export default function ProjectsPage() {
             onClose={() => setEditingProject(null)}
             onSaved={() => {
               fetchProjects();
-              showToast('✅ 저장되었습니다!'); // ***
+              showToast('✅ 저장되었습니다!');
             }}
           />
         )}
 
-        <Toast message={message} visible={visible} onClose={hideToast} /> {/* *** */}
+        <Toast message={message} visible={visible} onClose={hideToast} />
       </div>
     </GlassLayoutWithHeader>
   );

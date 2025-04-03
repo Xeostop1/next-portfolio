@@ -1,7 +1,7 @@
 'use client';
 
 import { Project } from '@/types/Project';
-import ProjectItem from './ProjectItem'; // 다음 단계에서 만들거야
+import ProjectItem from './ProjectItem';
 
 type Props = {
   projects: Project[];
@@ -17,15 +17,16 @@ export default function ProjectList({
   handleEdit,
 }: Props) {
   return (
-    <ul>
+    <ul className="flex flex-wrap justify-center gap-6">
       {projects.map((project) => (
-        <ProjectItem
-          key={project.id}
-          project={project}
-          isAdmin={isAdmin}
-          onDelete={handleDelete}
-          onEdit={handleEdit}
-        />
+        <li key={project.id} className="w-[300px]">
+          <ProjectItem
+            project={project}
+            isAdmin={isAdmin}
+            onDelete={handleDelete}
+            onEdit={handleEdit}
+          />
+        </li>
       ))}
     </ul>
   );
