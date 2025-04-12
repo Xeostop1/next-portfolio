@@ -1,11 +1,12 @@
 'use client';
 
+import Link from 'next/link'; // *** Link 추가
 import GlassLayoutWithHeader from '@/components/layout/GlassLayoutWithHeader';
 
 export default function AboutPage() {
   return (
     <GlassLayoutWithHeader>
-      {/* ✅ flex-row로 항상 가로로 유지 */}
+      {/* ✅ 항상 가로 정렬 */}
       <div className="flex flex-row flex-wrap justify-center items-center gap-4 p-4">
         {/* 👈 소개 카드 */}
         <div className="w-[320px] h-[540px] backdrop-blur-sm bg-white/5 rounded-xl p-6 shadow-md border border-white/20 text-white flex flex-col justify-between">
@@ -33,8 +34,23 @@ export default function AboutPage() {
 
           <div>
             <h2 className="text-lg font-semibold mt-4">연락처</h2>
-            <p className="text-sm">Email: hanadev@example.com</p>
-            <p className="text-sm">GitHub: github.com/hanadev</p>
+            <p className="text-sm">
+              📩{' '}
+              <Link href="/contact" className="underline text-blue-300 hover:text-blue-400"> {/* *** Contact 페이지로 이동 */}
+                stop1@daum.net
+              </Link>
+            </p>
+            <p className="text-sm mt-1">
+              🔗{' '}
+              <a
+                href="https://github.com/Xeostop1?tab=overview&from=2025-03-01&to=2025-03-12"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline text-blue-300 hover:text-blue-400"
+              >
+                GitHub 바로가기
+              </a> 
+            </p>
           </div>
         </div>
 
