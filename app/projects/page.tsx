@@ -1,106 +1,35 @@
-'use client';
-
-import { useEffect, useState } from 'react';
+// 📄 app/projects/page.tsx
+import { getProjects } from '@/sanity/lib/sanity';
+import type { Metadata } from 'next';
+import ProjectsPageClient from './ProjectsPageClient'; // 👈 클라이언트 컴포넌트 분리
 import { Project } from '@/types/Project';
-import { useProjectStore } from '@/lib/store/projectStore';
-import EditProject from '@/components/project/EditProject';
-import ProjectList from '@/components/project/ProjectList';
-import SortControls from '@/components/project/SortControls';
-import SkillFilter from '@/components/project/SkillFilter';
-import GlassLayoutWithHeader from '@/components/layout/GlassLayoutWithHeader';
-import Toast from '@/components/feedback/Toast';
-import { useToastState } from '@/lib/hook/useToastState';
 
-export default function ProjectsPage() {
-  const { isAdmin } = useProjectStore();
-  const [projects, setProjects] = useState<Project[]>([]);
-  const [sortedProjects, setSortedProjects] = useState<Project[]>([]);
-  const [selectedSkill, setSelectedSkill] = useState<string | null>(null);
-  const [sortOrder, setSortOrder] = useState<'newest' | 'oldest'>('newest');
-  const [editingProject, setEditingProject] = useState<Project | null>(null);
+// ✅ SEO 메타데이터 생성 함수
+export async function generateMetadata(): Promise<Metadata> {
+  const projects: Project[] = await getProjects();
 
-  const { message, visible, showToast, hideToast } = useToastState();
-
-  const fetchProjects = () => {
-    fetch('/api/projects')
-      .then((res) => res.json())
-      .then((data) => {
-        setProjects(data);
-      });
-  };
-
-  useEffect(() => {
-    fetchProjects();
-  }, []);
-
-  useEffect(() => {
-    const sorted = [...projects].sort((a, b) =>
-      sortOrder === 'newest'
-        ? new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-        : new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
-    );
-    setSortedProjects(sorted);
-  }, [projects, sortOrder]);
-
-  const handleDelete = async (_id: string) => {
-    const res = await fetch('/api/projects/delete', {
-      method: 'DELETE',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ _id }),
-    });
-
-    if (res.ok) {
-      setProjects((prev) => prev.filter((project) => project._id !== _id));
-      showToast('✅ 삭제되었습니다');
-    } else {
-      showToast('❌ 삭제에 실패했어요');
-    }
-  };
-
-  const allSkills = Array.from(
-    new Set(sortedProjects.flatMap((project) => project.skills || []))
+  const skillKeywords = Array.from(
+    new Set(projects.flatMap((p) => p.skills || []))
   );
 
-  const filtered = selectedSkill
-    ? sortedProjects.filter((project) => project.skills?.includes(selectedSkill))
-    : sortedProjects;
+  return {
+    title: '프로젝트 | 서하나 포트폴리오',
+    description:
+      '서하나 프론트엔드 개발자의 프로젝트들을 확인하세요. 최신 웹 기술을 활용한 다양한 작업 사례를 소개합니다.',
+    keywords: [
+      '서하나',
+      '프론트엔드 개발자',
+      '프로젝트 포트폴리오',
+      '포트폴리오 웹사이트',
+      '프론트엔드 사례',
+      ...skillKeywords // ✅ 실제 기술 키워드 삽입
+    ],
+  };
+}
 
-  return (
-    <GlassLayoutWithHeader>
-      <div className="p-4">
-        <h1 className="text-2xl text-white font-bold mb-4">Projects</h1>
+// ✅ 서버 컴포넌트: 클라이언트 컴포넌트를 불러오기만 함
+export default async function ProjectsPage() {
+  const projects: Project[] = await getProjects();
 
-        <SkillFilter
-          skills={allSkills}
-          selectedSkill={selectedSkill}
-          onChange={setSelectedSkill}
-        />
-
-        <SortControls sortOrder={sortOrder} onChange={setSortOrder} />
-
-        {/* ✅ 가운데 정렬 + 너비 제한 */}
-        <div className="max-w-screen-lg mx-auto">
-          <ProjectList
-            projects={filtered}
-            isAdmin={isAdmin}
-            handleDelete={handleDelete}
-            handleEdit={(project) => setEditingProject(project)}
-          />
-        </div>
-
-        {editingProject && (
-          <EditProject
-            project={editingProject}
-            onClose={() => setEditingProject(null)}
-            onSaved={() => {
-              fetchProjects();
-              showToast('✅ 저장되었습니다!');
-            }}
-          />
-        )}
-
-        <Toast message={message} visible={visible} onClose={hideToast} />
-      </div>
-    </GlassLayoutWithHeader>
-  );
+  return <ProjectsPageClient initialProjects={projects} />;
 }

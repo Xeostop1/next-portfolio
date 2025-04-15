@@ -1,8 +1,23 @@
-// /app/projects/[slug]/page.tsx
+// 📄 app/projects/[slug]/page.tsx
 import { notFound } from 'next/navigation';
 import { client } from '@/sanity/client';
 import GlassLayoutWithHeader from '@/components/layout/GlassLayoutWithHeader';
 import { Project } from '@/types/Project';
+import type { Metadata } from 'next';
+
+// ✅ SEO 메타데이터 생성
+export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
+  const allProjects: Project[] = await client.fetch(`*[_type == "project"]`);
+  const project = allProjects.find((p) => p.path === params.slug);
+
+  if (!project) return {};
+
+  return {
+    title: `${project.title} | 서하나 포트폴리오`,
+    description: project.description || `${project.title} 프로젝트 상세 설명`,
+    keywords: project.skills?.join(', '), 
+  };
+}
 
 type Props = {
   params: { slug: string };
@@ -10,7 +25,7 @@ type Props = {
 
 export default async function ProjectDetailPage({ params }: Props) {
   const allProjects: Project[] = await client.fetch(`*[_type == "project"]`);
-  const project = allProjects.find(p => p.path === params.slug);
+  const project = allProjects.find((p) => p.path === params.slug);
 
   if (!project) return notFound();
 

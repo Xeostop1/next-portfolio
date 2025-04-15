@@ -5,7 +5,7 @@ import { Project } from '@/types/Project';
 import { useProjectStore } from '@/lib/store/projectStore';
 import { getProjectCount } from '@/services/project/getProjectCount';
 import ProjectList from '@/components/project/ProjectList';
-import AddProject from '@/components/project/AddProject'; // ✅ 추가
+import AddProject from '@/components/project/AddProject'; 
 import EditProject from '@/components/project/EditProject';
 import MailList from './MailList'; 
 
@@ -13,7 +13,7 @@ export default function AdminPage() {
   const { isAdmin } = useProjectStore();
   const [projects, setProjects] = useState<Project[]>([]);
   const [editingProject, setEditingProject] = useState<Project | null>(null);
-  const [showAddForm, setShowAddForm] = useState(false); // ✅ 추가 폼 상태
+  const [showAddForm, setShowAddForm] = useState(false); 
   const [projectCount, setProjectCount] = useState<number | null>(null);
 
   const fetchProjects = async () => {
@@ -27,7 +27,7 @@ export default function AdminPage() {
   }, []);
   useEffect(() => {
     async function fetchCount() {
-      const count = await getProjectCount(); // ✅ 프로젝트 수 가져오기
+      const count = await getProjectCount(); 
       setProjectCount(count);
     }
     fetchCount();
@@ -55,10 +55,8 @@ export default function AdminPage() {
       ) : (
         <p>로딩 중...</p>
       )}
-       <MailList /> {/* 📬 받은 메일 리스트 표시 */}
+       <MailList />
     </div>
-
-        {/* ✅ 추가 버튼 */}
         <br/>
         <button
           className="mb-4 px-4 py-2 rounded bg-white/20 hover:bg-white/30 text-white"
@@ -66,9 +64,6 @@ export default function AdminPage() {
         >
           {showAddForm ? '닫기' : '➕ 새 프로젝트 추가'}
         </button>
-
-
-        {/* ✅ 추가 폼 */}
         {showAddForm && (
           <AddProject
             onAdded={() => {
@@ -79,7 +74,6 @@ export default function AdminPage() {
         )}
         <br/>
         <br/>
-        {/* ✅ 수정 폼 */}
         {editingProject && (
           <EditProject
             project={editingProject}
@@ -88,7 +82,6 @@ export default function AdminPage() {
           />
         )}
 
-        {/* ✅ 리스트 */}
         <ProjectList
           projects={projects}
           isAdmin={isAdmin}

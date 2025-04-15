@@ -1,7 +1,7 @@
 // 📂 app/api/mail/send/route.ts
 import { NextResponse } from 'next/server';
 import nodemailer from 'nodemailer';
-import { client } from '@/sanity/client'; // ✅ Sanity client
+import { client } from '@/sanity/client'; // Sanity client
 
 export async function POST(req: Request) {
   console.log('📨 메일 API 요청 도착!');
