@@ -8,11 +8,11 @@ import { Project } from '@/types/Project';
 export const metadata: Metadata = {
   title: '서하나의 포트폴리오 | 프론트엔드 개발자',
   description: '프론트엔드 개발자 서하나의 포트폴리오입니다. Next.js, React, TypeScript, Sanity로 만든 우주 감성의 웹사이트를 소개합니다.',
-  keywords: ['서하나', '프론트엔드', '포트폴리오', 'React', 'Next.js', '타입스크립트', 'Sanity', '웹 개발자'],
+  keywords: ['서하나', '프론트엔드', '포트폴리오', 'React', 'Next.js', '타입스크립트', 'Sanity', '개발자 포트폴리오', '개인 포트폴리오 웹사이트', '포트폴리오 사이트', '개인 포트폴리오 예시'],
   openGraph: {
     title: '서하나의 포트폴리오 | 프론트엔드 개발자',
-    description: 'React, TypeScript, Sanity로 만든 우주 감성의 프론트엔드 포트폴리오입니다.',
-    url: 'https://next-portfolio-nine-theta.vercel.app/', // 실제 배포 주소
+    description: 'React, TypeScript, Sanity로 만든 프론트엔드 포트폴리오입니다.',
+    url: 'https://next-portfolio-nine-theta.vercel.app/', 
     siteName: '서하나 포트폴리오',
     images: [
       {
