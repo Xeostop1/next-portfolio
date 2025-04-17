@@ -3,8 +3,8 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Providers from './providers';
-import Script from 'next/script'; // *** GA 스크립트 추가 ***
-import RouteTracker from '@/components/analytics/RouteTracker'; // *** 페이지 변경 추적 컴포넌트 ***
+import Script from 'next/script'; 
+import RouteTracker from '@/components/analytics/RouteTracker'; 
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -21,7 +21,7 @@ export const metadata: Metadata = {
   title: '하나의 포트폴리오',
   description: '프론트엔드 개발자 서하나의 포트폴리오입니다.',
   icons: {
-    icon: '/favicon-v2.ico', // *** 파비콘 경로 ***
+    icon: '/favicon-v2.ico',
   },
 };
 
@@ -33,10 +33,9 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <head>
-        {/* ✅ Google Analytics 스크립트 */}
         <Script
           src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GA_ID}`}
-          strategy="afterInteractive" // *** GA 스크립트 비동기 로딩 ***
+          strategy="afterInteractive" 
         />
         <Script id="gtag-init" strategy="afterInteractive">
           {`
@@ -53,7 +52,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <Providers>
-          <RouteTracker /> {/* *** 페이지 이동 추적 컴포넌트 삽입 *** */}
+          <RouteTracker /> {/* *** 페이지 이동 추적 컴포넌트 *** */}
           {children}
         </Providers>
       </body>
