@@ -12,6 +12,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: '서하나의 포트폴리오 | 프론트엔드 개발자',
     description: 'React, TypeScript, Sanity로 만든 프론트엔드 포트폴리오입니다.',
+    
     url: 'https://next-portfolio-nine-theta.vercel.app/', 
     siteName: '서하나 포트폴리오',
     images: [
