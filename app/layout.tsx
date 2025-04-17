@@ -16,14 +16,18 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-// ✅ SEO용 메타데이터
+
 export const metadata: Metadata = {
   title: '하나의 포트폴리오',
-  description: '프론트엔드 개발자 서하나의 포트폴리오입니다.',
+  description: '개발자 서하나의 포트폴리오입니다.',
   icons: {
     icon: '/favicon-v2.ico',
   },
+  other: {
+    'google-site-verification': 'aFsMhrHQAZyi-RVSvzb0pDRZSzk4jiFWFQG7NwOwwrA', // ✅ 여기만 추가!
+  },
 };
+
 
 export default function RootLayout({
   children,

@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import GlassButton from '@/components/common/GlassButton';
+import { event } from '@/lib/gtag'; // **** GA 이벤트 함수 추가
 
 export default function SendMail() {
   const [email, setEmail] = useState('');
@@ -12,6 +13,13 @@ export default function SendMail() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setStatus('⏳ 메일 전송 중...');
+
+    // **** 이벤트 추적 추가
+    event({
+      action: 'contact_form_submit',
+      category: 'Contact',
+      label: 'Contact Form Submission',
+    });
 
     const res = await fetch('/api/mail/send', {
       method: 'POST',
@@ -32,16 +40,14 @@ export default function SendMail() {
   return (
     <form
       onSubmit={handleSubmit}
-      className="space-y-4 bg-white/10 p-6 rounded-xl backdrop-blur-md shadow-xl text-black" // **** text-black로 변경
+      className="space-y-4 bg-white/10 p-6 rounded-xl backdrop-blur-md shadow-xl text-black"
     >
-    
-
       <input
         type="email"
         placeholder="받는 사람 이메일"
         value={email}
         onChange={(e) => setEmail(e.target.value)}
-        className="w-full p-2 rounded bg-white/20 placeholder-gray-600 text-black" // ****
+        className="w-full p-2 rounded bg-white/20 placeholder-gray-600 text-black"
         required
       />
 
@@ -50,7 +56,7 @@ export default function SendMail() {
         placeholder="제목"
         value={name}
         onChange={(e) => setname(e.target.value)}
-        className="w-full p-2 rounded bg-white/20 placeholder-gray-600 text-black" // ****
+        className="w-full p-2 rounded bg-white/20 placeholder-gray-600 text-black"
         required
       />
 
@@ -58,13 +64,13 @@ export default function SendMail() {
         placeholder="내용"
         value={message}
         onChange={(e) => setMessage(e.target.value)}
-        className="w-full p-2 h-32 rounded bg-white/20 placeholder-gray-600 text-black" // ****
+        className="w-full p-2 h-32 rounded bg-white/20 placeholder-gray-600 text-black"
         required
       />
 
       <GlassButton type="submit">메일 보내기</GlassButton>
 
-      {status && <p className="text-black">{status}</p>} {/* **** 상태 메시지도 검정으로 */}
+      {status && <p className="text-black">{status}</p>}
     </form>
   );
 }

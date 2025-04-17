@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { Project } from '@/types/Project';
+import { event } from '@/lib/gtag'; // ✅ GA 이벤트 함수 import
 
 type Props = {
   project: Project;
@@ -11,16 +12,25 @@ type Props = {
 };
 
 export default function ProjectItem({ project, isAdmin, onEdit, onDelete }: Props) {
-  const { title, subtitle, skills, createdAt, path, _id } = project;
+  const { id, title, subtitle, skills, createdAt, path, _id } = project;
 
   return (
-    <div className="backdrop-blur-md bg-white/10 border border-white/20 rounded-xl p-4 text-white shadow-lg">
-      <Link href={`/projects/${path}`}>
+    <li className="backdrop-blur-md bg-white/10 border border-white/20 rounded-xl p-4 mb-4 text-white shadow-lg max-w-sm mx-auto">
+      <Link
+        href={`/projects/${path}`}
+        onClick={() =>
+          event({
+            action: 'click_project',
+            category: 'Project',
+            label: title, // ✅ 클릭한 프로젝트 이름으로 기록
+          })
+        }
+      >
         <div>
           <img
             src={`/project/${path}.jpg`}
             alt={`${title} 이미지`}
-            className="w-full h-[300px] object-cover rounded-lg mb-2"
+            className="w-full h-100 object-cover rounded-lg mb-2"
           />
           <h3 className="text-lg font-semibold hover:underline text-white">{title}</h3>
           <p className="text-sm text-gray-300 mt-1">{subtitle}</p>
@@ -55,6 +65,6 @@ export default function ProjectItem({ project, isAdmin, onEdit, onDelete }: Prop
           </button>
         </div>
       )}
-    </div>
+    </li>
   );
 }
