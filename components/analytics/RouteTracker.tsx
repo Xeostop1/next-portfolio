@@ -1,4 +1,3 @@
-// components/analytics/RouteTracker.tsx
 'use client';
 
 import { useEffect } from 'react';
@@ -9,8 +8,7 @@ export default function RouteTracker() {
   const pathname = usePathname();
 
   useEffect(() => {
-    if (!pathname) return;
-    pageview(pathname);
+    pageview(pathname); // *** 페이지 전환 시 pageview 호출 ***
   }, [pathname]);
 
   return null;
