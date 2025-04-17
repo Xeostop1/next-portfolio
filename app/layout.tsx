@@ -22,10 +22,7 @@ export const metadata: Metadata = {
   description: '개발자 서하나의 포트폴리오입니다.',
   icons: {
     icon: '/favicon-v2.ico',
-  },
-  other: {
-    'google-site-verification': 'aFsMhrHQAZyi-RVSvzb0pDRZSzk4jiFWFQG7NwOwwrA', // ✅ 여기만 추가!
-  },
+  }
 };
 
 
@@ -51,6 +48,10 @@ export default function RootLayout({
             });
           `}
         </Script>
+        <meta
+          name="google-site-verification"
+          content="aFsMhrHQAZyi-RVSvzb0pDRZSzk4jiFWFQG7NwOwwrA"
+        />
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
