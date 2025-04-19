@@ -11,10 +11,12 @@ import GlassLayoutWithHeader from '@/components/layout/GlassLayoutWithHeader';
 import Toast from '@/components/feedback/Toast';
 import { useToastState } from '@/lib/hook/useToastState';
 
+//타입
 type Props = {
   initialProjects: Project[];
 };
 
+// page.tsx에서 넘겨준 getProjects()
 export default function ProjectsPageClient({ initialProjects }: Props) {
   const { isAdmin } = useProjectStore();
   const [projects, setProjects] = useState<Project[]>(initialProjects);

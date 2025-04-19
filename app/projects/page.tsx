@@ -4,10 +4,11 @@ import type { Metadata } from 'next';
 import ProjectsPageClient from './ProjectsPageClient'; // 👈 클라이언트 컴포넌트 분리
 import { Project } from '@/types/Project';
 
-// ✅ SEO 메타데이터 생성 함수
+//  SEO 메타데이터 생성 함수
 export async function generateMetadata(): Promise<Metadata> {
   const projects: Project[] = await getProjects();
 
+  //각 기술스택을 1개의 배열로 만듬 그리고 중복을 제거하고(new Set) 배열로 다시 만듬 
   const skillKeywords = Array.from(
     new Set(projects.flatMap((p) => p.skills || []))
   );
@@ -22,12 +23,12 @@ export async function generateMetadata(): Promise<Metadata> {
       '프로젝트 포트폴리오',
       '포트폴리오 웹사이트',
       '프론트엔드 사례',
-      ...skillKeywords // ✅ 실제 기술 키워드 삽입
+      ...skillKeywords //  실제 기술 키워드 삽입
     ],
   };
 }
 
-// ✅ 서버 컴포넌트: 클라이언트 컴포넌트를 불러오기만 함
+//  서버 컴포넌트: 클라이언트 컴포넌트를 불러오기만 함
 export default async function ProjectsPage() {
   const projects: Project[] = await getProjects();
 

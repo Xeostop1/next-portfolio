@@ -16,22 +16,29 @@ export default function AdminPage() {
   const [showAddForm, setShowAddForm] = useState(false); 
   const [projectCount, setProjectCount] = useState<number | null>(null);
 
+
+  //프로젝트 가져오기 
   const fetchProjects = async () => {
     const res = await fetch('/api/projects');
     const data = await res.json();
     setProjects(data);
   };
 
+  //리스트 가져오기  
   useEffect(() => {
     fetchProjects();
   }, []);
+
+  //카운트 작업 서비스에서 불러움  
   useEffect(() => {
     async function fetchCount() {
       const count = await getProjectCount(); 
+      // 현재 프로젝트 개수 상태를 count 값으로 업데이트 useStats projectCount을 사용하는 부분이 있다면 자동으로 다시 렌더링
       setProjectCount(count);
     }
     fetchCount();
   }, []);
+
 
   const handleDelete = async (_id: string) => {
     const res = await fetch('/api/projects/delete', {
@@ -41,6 +48,8 @@ export default function AdminPage() {
     });
 
     if (res.ok) {
+      //현재 프로젝트 목록이고 함수형 업데이트 이전 프로젝트 목록에서 _id가 일치 하지 않는것만 남겨 
+      //prev 이전에 저장된 프로젝트 목록 filter 조건에 맞는 것만 남김
       setProjects((prev) => prev.filter((p) => p._id !== _id));
     }
   };
@@ -92,3 +101,15 @@ export default function AdminPage() {
 
   );
 }
+
+
+/*
+setProjects(function updateProjects(previousProjects) {
+  const filteredProjects = previousProjects.filter(function (project) {
+    return project._id !== _id; // 삭제할 ID와 다른 것만 남김
+  });
+
+  return filteredProjects;
+});
+
+*/

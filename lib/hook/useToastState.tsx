@@ -12,7 +12,7 @@ export function useToastState() {
 
     setTimeout(() => {
       setVisible(false);
-    }, 3000); // 3초 뒤에 자동으로 사라짐
+    }, 3000); 
   }, []);
 
   const hideToast = useCallback(() => {

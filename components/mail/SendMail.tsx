@@ -2,31 +2,34 @@
 
 import { useState } from 'react';
 import GlassButton from '@/components/common/GlassButton';
-import { event } from '@/lib/gtag'; // **** GA 이벤트 함수 추가
+import { event } from '@/lib/gtag'; 
 
 export default function SendMail() {
   const [email, setEmail] = useState('');
   const [name, setname] = useState('');
   const [message, setMessage] = useState('');
   const [status, setStatus] = useState('');
+  //useState로 폼상태 관리 사용자 실시간 입력 관리 
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+    e.preventDefault(); //폼 제출시 페이지 새로고침 불가 아래 실행 
     setStatus('⏳ 메일 전송 중...');
 
-    // **** 이벤트 추적 추가
+    //ga4
     event({
       action: 'contact_form_submit',
       category: 'Contact',
       label: 'Contact Form Submission',
     });
 
+    //api 호출로 메일 전송  엔드주소 api mail send로 json 데이터 전송 
     const res = await fetch('/api/mail/send', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email, name, message }),
     });
 
+    //전송되면 status 변경 후 입력 폼 초기화 
     if (res.ok) {
       setStatus('✅ 메일이 성공적으로 전송되었습니다!');
       setEmail('');

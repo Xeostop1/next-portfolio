@@ -5,7 +5,7 @@ import GlassLayoutWithHeader from '@/components/layout/GlassLayoutWithHeader';
 import { Project } from '@/types/Project';
 import type { Metadata } from 'next';
 
-// ✅ SEO 메타데이터 생성
+// SEO 메타데이터 생성
 export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
   const allProjects: Project[] = await client.fetch(`*[_type == "project"]`);
   const project = allProjects.find((p) => p.path === params.slug);
@@ -24,7 +24,9 @@ type Props = {
 };
 
 export default async function ProjectDetailPage({ params }: Props) {
+  //패치로 모든 것 모든 프로젝트를 가져왔다가 
   const allProjects: Project[] = await client.fetch(`*[_type == "project"]`);
+  //패스와 슬러그(URL)와 맞는 프로젝트를 찾음 
   const project = allProjects.find((p) => p.path === params.slug);
 
   if (!project) return notFound();
@@ -44,7 +46,7 @@ export default async function ProjectDetailPage({ params }: Props) {
           기술: {project.skills?.join(', ')}
         </p>
         <p className="text-xs mt-1">
-          작성일: {new Date(project.createdAt).toLocaleDateString('ko-KR')}
+          만든 기간: {new Date(project.createdAt).toLocaleDateString('ko-KR')}
         </p>
       </div>
     </GlassLayoutWithHeader>

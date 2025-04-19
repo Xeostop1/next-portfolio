@@ -3,10 +3,12 @@
 import { useSession, signIn, signOut } from 'next-auth/react';
 import { useEffect } from 'react';
 import { useProjectStore } from '@/lib/store/projectStore';
+import { useRouter } from 'next/navigation'; // ✅ 추가
 
 export default function Footer() {
   const { data: session, status } = useSession();
   const setIsAdmin = useProjectStore((state) => state.setIsAdmin);
+  const router = useRouter(); // ✅ 추가
 
   useEffect(() => {
     if (session?.user?.email === '11requiem27@gmail.com') {
@@ -27,7 +29,7 @@ export default function Footer() {
         ) : session ? (
           <>
             <span className="text-gray-300">{session.user?.email}</span>
-            <a href="/admin" className="underline hover:text-white">Admin</a> {/* ✅ Admin 링크 */}
+            <a href="/admin" className="underline hover:text-white">Admin</a>
             <button
               onClick={() => signOut()}
               className="px-3 py-1 rounded bg-white/20 hover:bg-white/30 transition"
@@ -37,7 +39,9 @@ export default function Footer() {
           </>
         ) : (
           <button
-            onClick={() => signIn()}
+            onClick={() =>
+              signIn('google', { callbackUrl: '/admin' }) // ✅ 로그인 성공 시 /admin으로 이동
+            }
             className="px-3 py-1 rounded bg-white/20 hover:bg-white/30 transition"
           >
             로그인

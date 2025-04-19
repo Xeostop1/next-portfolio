@@ -33,13 +33,13 @@ export default function AboutClient() {
           <div>
             <h2 className="text-lg font-semibold mt-4">연락처</h2>
             <p className="text-sm">
-              📩{' '}
+              📩
               <Link href="/contact" className="underline text-blue-300 hover:text-blue-400">
                 stop1@daum.net
               </Link>
             </p>
             <p className="text-sm mt-1">
-              🔗{' '}
+              🔗
               <a
                 href="https://github.com/Xeostop1?tab=overview&from=2025-03-01&to=2025-03-12"
                 target="_blank"
@@ -52,7 +52,6 @@ export default function AboutClient() {
           </div>
         </div>
 
-        {/* 👉 비디오 카드 */}
         <div className="w-[320px] h-[540px] rounded-xl overflow-hidden border border-white/10 shadow-xl">
           <video
             src="/profile.mp4"

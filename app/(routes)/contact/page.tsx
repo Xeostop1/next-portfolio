@@ -1,8 +1,8 @@
-import type { Metadata } from 'next'; // *** SEO 메타데이터용 타입 추가
-import SendMail from '@/components/mail/SendMail';
-import GlassLayoutWithHeader from '@/components/layout/GlassLayoutWithHeader';
+import type { Metadata } from 'next'; //-> add mata serverside 
+import SendMail from '@/components/mail/SendMail';  // 메일 보내는 컴퍼넌트 
+import GlassLayoutWithHeader from '@/components/layout/GlassLayoutWithHeader';  //css레이아웃+헤더
 
-// ✅ SEO 최적화 메타데이터 설정
+
 export const metadata: Metadata = {
   title: 'Contact | 서하나 포트폴리오',
   description: '프론트엔드 개발자 서하나에게 궁금한 점이 있다면 언제든지 연락 주세요.',

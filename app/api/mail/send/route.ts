@@ -4,16 +4,14 @@ import nodemailer from 'nodemailer';
 import { client } from '@/sanity/client'; // Sanity client
 
 export async function POST(req: Request) {
-  console.log('📨 메일 API 요청 도착!');
   const { name, email, message } = await req.json();
-  console.log('📥 받은 데이터:', { name, email, message });
 
   if (!name || !email || !message) {
     return new NextResponse('모든 필드를 입력해주세요.', { status: 400 });
   }
 
   try {
-    // ✅ 메일 전송
+    // 메일 전송 노드 메일러 사용 
     const transporter = nodemailer.createTransport({
       service: 'gmail',
       auth: {
@@ -40,7 +38,7 @@ export async function POST(req: Request) {
       message,
       createdAt: new Date().toISOString(),
     });
-    console.log('📝 Sanity에 저장됨:', saved);
+    // console.log('📝 Sanity에 저장됨:', saved);
 
     return NextResponse.json({ success: true });
   } catch (err) {
